@@ -24,8 +24,25 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton
         super(context, attrs);
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SymbolButton);
         symbol = a.getInteger(R.styleable.SymbolButton_symbol, 0);
-        soundId = soundPool.load(context, R.raw.keyok1, 1);
+        soundId = soundPool.load(context, getResourceId(), 1);
         animation = AnimationUtils.loadAnimation(context, R.anim.shake);
+    }
+
+    private int getResourceId()
+    {
+        switch (symbol)
+        {
+            case 0:
+                return R.raw.keyok1;
+            case 1:
+                return R.raw.keyok2;
+            case 2:
+                return R.raw.keyok3;
+            case 3:
+                return R.raw.keyok5;
+            default:
+                return 0;
+        }
     }
 
     final void signalSymbol()
