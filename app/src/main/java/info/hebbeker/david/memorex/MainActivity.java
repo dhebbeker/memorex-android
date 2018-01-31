@@ -1,17 +1,11 @@
 package info.hebbeker.david.memorex;
 
-import android.media.AudioManager;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import static java.lang.Thread.sleep;
@@ -22,76 +16,61 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MainActivity";
 
-    private SoundPool soundPool;
-    private int soundIdSymbol[] = new int[4];
-    private List symbolButtons = new ArrayList();
-    private volatile int gateKeeperStart = 0;
-    private volatile int gateKeeperEnd = 0;
-    private ArrayList shaker = new ArrayList();
+    private final SymbolButton[] symbols = new SymbolButton[4];
     private int nextSymbolIndex = 0;
-    private List symbolList = new ArrayList();
+    private ArrayList<Integer> symbolIndexList = new ArrayList<Integer>();
 
-    /*private void signalNextSymbol2Human() {
-Log.d(TAG,"nextSymbolIndex=" + nextSymbolIndex);
-        if(nextSymbolIndex >=symbolList.size())
-        {
-            nextSymbolIndex =0;
-            enableSymbolInput();
-        }
-        else
-        {
-            final int nextSymbolNr = (int) symbolList.get(nextSymbolIndex);
-            Log.d(TAG,"nextSymbolNr=" + nextSymbolNr);
-            ((SymbolButton) symbolButtons.get(nextSymbolNr)).startAnimation(shake);
-            soundPool.play(soundIdSymbol[nextSymbolNr], 1f, 1f,1,0,1f);
-            nextSymbolIndex++;
-        }
-
-    }*/
-    private State state = State.STOPPED;
     private Random rand = new Random();
+    private ArrayList<Integer> verificationSequence = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        soundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 0);
-        soundIdSymbol[0] = soundPool.load(this, R.raw.keyok1, 1);
-        soundIdSymbol[1] = soundPool.load(this, R.raw.keyok2, 1);
-        soundIdSymbol[2] = soundPool.load(this, R.raw.keyok3, 1);
-        soundIdSymbol[3] = soundPool.load(this, R.raw.keyok5, 1);
-        shaker.add(AnimationUtils.loadAnimation(this, R.anim.shake));
-        shaker.add(AnimationUtils.loadAnimation(this, R.anim.shake));
-        shaker.add(AnimationUtils.loadAnimation(this, R.anim.shake));
-        shaker.add(AnimationUtils.loadAnimation(this, R.anim.shake));
-        /*shake.setAnimationListener(new Animation.AnimationListener() {
 
-            @Override
-            public void onAnimationStart(Animation animation) {
-Log.d(TAG, "gKS0=" + gateKeeperStart++);
+        symbols[0] = findViewById(R.id.button1);
+        symbols[1] = findViewById(R.id.button2);
+        symbols[2] = findViewById(R.id.button3);
+        symbols[3] = findViewById(R.id.button4);
+
+        for (SymbolButton symbolButton : symbols) symbolButton.setVisibility(View.INVISIBLE);
+    }
+
+    void verifySequence(final int symbol, final View view)
+    {
+        verificationSequence.add(symbol);
+
+        if (verificationSequence.size() == symbolIndexList.size())
+        {
+            disableSymbolInput();
+            boolean freeOfErrors = true;
+            for (int elementNr = 0; elementNr < verificationSequence.size(); elementNr++)
+            {
+                if (verificationSequence.get(elementNr) != symbolIndexList.get(elementNr))
+                {
+                    freeOfErrors = false;
+                    break;
+                }
             }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                Log.d(TAG, "gKE1=" + gateKeeperEnd++);
-signalNextSymbol2Human();
-                Log.d(TAG, "gKE2=" + gateKeeperEnd);
+            CharSequence resultMessage = "";
+            if (freeOfErrors)
+            {
+                resultMessage = "Success!";
+            } else
+            {
+                resultMessage = "Error!";
             }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
+            Toast notification = Toast.makeText(this, resultMessage + " (" + verificationSequence.size() + ")", Toast.LENGTH_LONG);
+            notification.show();
+            if (freeOfErrors) nextLevel(view);
+            else
+            {
+                View button = findViewById(R.id.startButton);
+                button.setVisibility(View.VISIBLE);
+                button.setClickable(true);
             }
-        });*/
-
-        symbolButtons.add(findViewById(R.id.button1));
-        symbolButtons.add(findViewById(R.id.button2));
-        symbolButtons.add(findViewById(R.id.button3));
-        symbolButtons.add(findViewById(R.id.button4));
-
-        for (Object symbolButton : symbolButtons)
-            ((SymbolButton) symbolButton).setVisibility(View.INVISIBLE);
+        }
     }
 
     /**
@@ -100,29 +79,16 @@ signalNextSymbol2Human();
     public void signalSymbol2Game(View view)
     {
         SymbolButton pressedButton = (SymbolButton) view;
-        Log.d(TAG, "Button pressed with symbol=" + pressedButton.symbol);
-        /* animation of the button */
-
-        /* play sound */
-        if ((pressedButton.symbol < 0) || (pressedButton.symbol >= soundIdSymbol.length))
-            throw new InvalidParameterException("illegal symbol " + pressedButton.symbol + " defined!");
-        else
-        {
-
-            view.startAnimation((Animation) shaker.get(pressedButton.symbol));
-            soundPool.play(soundIdSymbol[pressedButton.symbol], 1f, 1f, 1, 0, 1f);
-        }
-
-
+        pressedButton.signalSymbol();
 
         /* send symbol to game logic */
         /* @todo send symbol to game logic */
+
+        verifySequence(pressedButton.getSymbol(), view);
     }
 
     public void signalSequence(final View view)
     {
-
-        state = State.SIGNALLING;
         disableSymbolInput();
 
         new Thread(new Runnable()
@@ -130,65 +96,51 @@ signalNextSymbol2Human();
             @Override
             public void run()
             {
-                for (final Object symbol : symbolList)
+                for (final int symbolIndex : symbolIndexList)
                 {
                     view.post(new Runnable()
                     {
                         @Override
                         public void run()
                         {
-
-                            soundPool.play(soundIdSymbol[(Integer) symbol], 1f, 1f, 1, 0, 1f);
-                            ((SymbolButton) symbolButtons.get((Integer) symbol)).startAnimation((Animation) shaker.get((Integer) symbol));
+                            symbols[symbolIndex].signalSymbol();
                         }
                     });
                     try
                     {
-                        sleep((long) (((Animation) shaker.get((Integer) symbol)).getDuration() * 0.9));
+                        sleep((long) (symbols[symbolIndex].getSignallingDuration() * 1.2));
                     } catch (InterruptedException e)
                     {
-                        Log.e(TAG, "Interrupted wait");
                         e.printStackTrace();
                     }
                 }
-
                 enableSymbolInput();
             }
         }).start();
-
-
     }
 
-    public void startGame(View view)
+    public void startGame(final View view)
     {
-        if (state != State.STOPPED)
-            throw new RuntimeException("Starting game is not allowed in state " + state.toString());
-        else
-        {
-            view.setClickable(false);
-            view.setVisibility(View.GONE);
-            for (Object symbolButton : symbolButtons)
-                ((SymbolButton) symbolButton).setVisibility(View.VISIBLE);
-            symbolList.clear();
-            nextSymbolIndex = 0;
-            symbolList.add(0);
-            symbolList.add(1);
-            symbolList.add(2);
-            symbolList.add(3);
-            symbolList.add(0);
-            symbolList.add(1);
-            symbolList.add(2);
-            symbolList.add(3);
-            nextLevel(view);
-        }
+        view.setClickable(false);
+        view.setVisibility(View.GONE);
 
+        for (SymbolButton symbolButton : symbols) symbolButton.setVisibility(View.VISIBLE);
+        newGame(view);
     }
 
-    public void nextLevel(View view)
+    void newGame(final View view)
     {
-        //symbolList.add(rand.nextInt(4));
+
+        symbolIndexList.clear();
+        nextLevel(view);
+    }
+
+    public final void nextLevel(final View view)
+    {
+        nextSymbolIndex = 0;
+        verificationSequence.clear();
+        symbolIndexList.add(rand.nextInt(4));
         signalSequence(view);
-
     }
 
     public void stopGame()
@@ -198,18 +150,11 @@ signalNextSymbol2Human();
 
     public void disableSymbolInput()
     {
-        for (Object symbolButton : symbolButtons) ((SymbolButton) symbolButton).setClickable(false);
-
+        for (SymbolButton symbolButton : symbols) symbolButton.setClickable(false);
     }
 
     public void enableSymbolInput()
     {
-        for (Object symbolButton : symbolButtons) ((SymbolButton) symbolButton).setClickable(true);
-
-    }
-
-    private enum State
-    {
-        STOPPED, SIGNALLING, WAITING
+        for (SymbolButton symbolButton : symbols) symbolButton.setClickable(true);
     }
 }
