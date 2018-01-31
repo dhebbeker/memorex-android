@@ -2,6 +2,7 @@ package info.hebbeker.david.memorex;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,7 +22,6 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<Integer> symbolIndexList = new ArrayList<Integer>();
 
     private Random rand = new Random();
-    private ArrayList<Integer> verificationSequence = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,29 +39,28 @@ public class MainActivity extends AppCompatActivity
 
     void verifySequence(final int symbol, final View view)
     {
-        verificationSequence.add(symbol);
-
-        if (verificationSequence.size() == symbolIndexList.size())
+        Log.d(TAG, "Input=" + symbol + " Expected=" + symbolIndexList.get(nextSymbolIndex));
+        boolean freeOfErrors = true;
+        if (symbolIndexList.get(nextSymbolIndex) == symbol)
         {
+            freeOfErrors = true;
+        } else
+        {
+            freeOfErrors = false;
             disableSymbolInput();
-            boolean freeOfErrors = true;
-            for (int elementNr = 0; elementNr < verificationSequence.size(); elementNr++)
-            {
-                if (verificationSequence.get(elementNr) != symbolIndexList.get(elementNr))
-                {
-                    freeOfErrors = false;
-                    break;
-                }
-            }
+        }
+        nextSymbolIndex++;
+        if ((nextSymbolIndex == symbolIndexList.size()) || !freeOfErrors)
+        {
             CharSequence resultMessage = "";
             if (freeOfErrors)
             {
-                resultMessage = "Success!";
+                resultMessage = "next level";
             } else
             {
-                resultMessage = "Error!";
+                resultMessage = "Game Over!";
             }
-            Toast notification = Toast.makeText(this, resultMessage + " (" + verificationSequence.size() + ")", Toast.LENGTH_LONG);
+            Toast notification = Toast.makeText(this, resultMessage + " (" + nextSymbolIndex + ")", Toast.LENGTH_LONG);
             notification.show();
             if (freeOfErrors) nextLevel(view);
             else
@@ -138,7 +137,6 @@ public class MainActivity extends AppCompatActivity
     public final void nextLevel(final View view)
     {
         nextSymbolIndex = 0;
-        verificationSequence.clear();
         symbolIndexList.add(rand.nextInt(4));
         signalSequence(view);
     }
