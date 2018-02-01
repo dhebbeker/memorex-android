@@ -13,7 +13,7 @@ import android.view.animation.AnimationUtils;
  * <p>
  * Symbols can be one of the following: 0, 1, 2, 3
  */
-final class SymbolButton extends android.support.v7.widget.AppCompatButton
+final class SymbolButton extends android.support.v7.widget.AppCompatButton implements Symbol
 {
     final static private SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 0);
     final private int symbol;
@@ -58,10 +58,5 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton
     long getSignallingDuration()
     {
         return animation.getDuration();
-    }
-
-    int getSymbol()
-    {
-        return symbol;
     }
 }
