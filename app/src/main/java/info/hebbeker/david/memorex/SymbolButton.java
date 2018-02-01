@@ -9,9 +9,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 /**
- * Created by dhebbeker on 21.01.18.
+ * Extends AppCompatButton with capabilities to signal a symbol.
+ * <p>
+ * Symbols can be one of the following: 0, 1, 2, 3
  */
-
 final class SymbolButton extends android.support.v7.widget.AppCompatButton
 {
     final static private SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 0);
@@ -22,13 +23,16 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton
     public SymbolButton(final Context context, final AttributeSet attrs)
     {
         super(context, attrs);
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SymbolButton);
-        symbol = a.getInteger(R.styleable.SymbolButton_symbol, 0);
-        soundId = soundPool.load(context, getResourceId(), 1);
+        {
+            final TypedArray styledAttributes = context.obtainStyledAttributes(attrs, R.styleable.SymbolButton);
+            symbol = styledAttributes.getInteger(R.styleable.SymbolButton_symbol, 0);
+            styledAttributes.recycle();
+        }
+        soundId = soundPool.load(context, getSoundResourceId(), 1);
         animation = AnimationUtils.loadAnimation(context, R.anim.shake);
     }
 
-    private int getResourceId()
+    private int getSoundResourceId()
     {
         switch (symbol)
         {
@@ -41,22 +45,22 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton
             case 3:
                 return R.raw.keyok5;
             default:
-                return 0;
+                throw new RuntimeException("No sound resource found for symbol '" + symbol + "'!");
         }
     }
 
-    final void signalSymbol()
+    void signalSymbol()
     {
         startAnimation(animation);
         soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
     }
 
-    final long getSignallingDuration()
+    long getSignallingDuration()
     {
         return animation.getDuration();
     }
 
-    public int getSymbol()
+    int getSymbol()
     {
         return symbol;
     }
