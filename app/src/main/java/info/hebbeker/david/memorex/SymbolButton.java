@@ -3,10 +3,13 @@ package info.hebbeker.david.memorex;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+import static java.lang.Long.max;
 
 /**
  * Extends AppCompatButton with capabilities to signal a symbol.
@@ -17,8 +20,9 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
 {
     final static private SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 0);
     final private int symbol;
-    final private int soundId;
     final private Animation animation;
+    private int soundId = -1;
+    private int soundDuration = 0;
 
     public SymbolButton(final Context context, final AttributeSet attrs)
     {
@@ -28,11 +32,43 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
             symbol = styledAttributes.getInteger(R.styleable.SymbolButton_symbol, 0);
             styledAttributes.recycle();
         }
-        soundId = soundPool.load(context, getSoundResourceId(), 1);
         animation = AnimationUtils.loadAnimation(context, R.anim.shake);
+
+        try
+        {
+            final int rawSoundResourceId = getRawSoundResourceId();
+            soundId = soundPool.load(context, rawSoundResourceId, 1);
+            try
+            {
+                soundDuration = getSoundDuration(context, rawSoundResourceId);
+            } catch (Exception exceptionGettingSoundDuration)
+            {
+                exceptionGettingSoundDuration.printStackTrace();
+            }
+        } catch (Exception exceptionLoadingSoundResource)
+        {
+            exceptionLoadingSoundResource.printStackTrace();
+        }
     }
 
-    private int getSoundResourceId()
+    /**
+     * @param rawId the raw resource id ({@code R.raw.<something>}) for the resource to use as sound source
+     * @return the duration in milliseconds, if no duration is available exception is thrown
+     */
+    private int getSoundDuration(final Context context, final int rawId) throws Exception
+    {
+        final MediaPlayer mediaPlayer = MediaPlayer.create(context, rawId);
+        final int duration = mediaPlayer.getDuration();
+        mediaPlayer.release();
+        if (duration < 0)
+            throw new Exception("fetching duration of sound failed (raw resource id:" + rawId + ", duration:" + duration + ")");
+        return duration;
+    }
+
+    /**
+     * @return the raw resource id ({@code R.raw.<something>}) for the resource to use as sound source
+     */
+    private int getRawSoundResourceId() throws Exception
     {
         switch (symbol)
         {
@@ -45,7 +81,7 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
             case 3:
                 return R.raw.keyok5;
             default:
-                throw new RuntimeException("No sound resource found for symbol '" + symbol + "'!");
+                throw new Exception("No sound resource found for symbol '" + symbol + "'!");
         }
     }
 
@@ -57,6 +93,6 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
 
     long getSignallingDuration()
     {
-        return animation.getDuration();
+        return max(animation.getDuration(), soundDuration);
     }
 }
