@@ -19,6 +19,7 @@ import static java.lang.Long.max;
 final class SymbolButton extends android.support.v7.widget.AppCompatButton implements Symbol
 {
     final static private SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 0);
+    private static long lastSignallingDuration = 0;
     final private int symbol;
     final private Animation animation;
     private int soundId = -1;
@@ -43,12 +44,21 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
                 soundDuration = getSoundDuration(context, rawSoundResourceId);
             } catch (Exception exceptionGettingSoundDuration)
             {
+
+                // can not do much in case getting sound duration fails. Fall back to default value.
                 exceptionGettingSoundDuration.printStackTrace();
             }
         } catch (Exception exceptionLoadingSoundResource)
         {
+            // can not do much in case getting sound duration fails. Fall back to default value.
+            // An invalid soundId will not be played but does not lead to an exception.
             exceptionLoadingSoundResource.printStackTrace();
         }
+    }
+
+    static long getLastSignallingDuration()
+    {
+        return lastSignallingDuration;
     }
 
     /**
@@ -87,6 +97,7 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
 
     void signalSymbol()
     {
+        lastSignallingDuration = getSignallingDuration();
         startAnimation(animation);
         soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
     }

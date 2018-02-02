@@ -55,24 +55,27 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
             @Override
             public void run()
             {
-                for (final Symbol symbol : symbolSequence)
+                try
                 {
-                    final SymbolButton symbolButton = (SymbolButton) symbol;
-                    runOnUiThread(new Runnable()
+                    sleep(SymbolButton.getLastSignallingDuration() + 450);
+                    for (final Symbol symbol : symbolSequence)
                     {
-                        @Override
-                        public void run()
+                        final SymbolButton symbolButton = (SymbolButton) symbol;
+                        runOnUiThread(new Runnable()
                         {
-                            symbolButton.signalSymbol();
-                        }
-                    });
-                    try
-                    {
+                            @Override
+                            public void run()
+                            {
+                                symbolButton.signalSymbol();
+                            }
+                        });
                         sleep((long) (symbolButton.getSignallingDuration() * 1.2));
-                    } catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
                     }
+                } catch (InterruptedException e)
+                {
+                    // can not do much in case of an InterruptedException.
+                    // It makes no sense to continue the sequence.
+                    e.printStackTrace();
                 }
                 for (SymbolButton symbolButton : symbols) symbolButton.setClickable(true);
             }
@@ -90,13 +93,42 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     public void deployGameBoard()
     {
         startGameButton.setVisibility(View.GONE);
-        for (SymbolButton symbolButton : symbols) symbolButton.setVisibility(View.VISIBLE);
+        for (SymbolButton symbolButton : symbols)
+        {
+            symbolButton.setVisibility(View.VISIBLE);
+            symbolButton.setClickable(true);
+        }
     }
 
     @Override
     public void clearBoard()
     {
-        for (SymbolButton symbolButton : symbols) symbolButton.setVisibility(View.INVISIBLE);
-        startGameButton.setVisibility(View.VISIBLE);
+        for (SymbolButton symbolButton : symbols) symbolButton.setClickable(false);
+
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    sleep(SymbolButton.getLastSignallingDuration() + 750);
+                } catch (InterruptedException e)
+                {
+                    // can not do much in case of an InterruptedException. Also it does not matter.
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        for (SymbolButton symbolButton : symbols)
+                            symbolButton.setVisibility(View.INVISIBLE);
+                        startGameButton.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        }).start();
     }
 }
