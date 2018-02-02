@@ -1,7 +1,11 @@
 package info.hebbeker.david.memorex;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,6 +31,14 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         symbols[1] = findViewById(R.id.button2);
         symbols[2] = findViewById(R.id.button3);
         symbols[3] = findViewById(R.id.button4);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu)
+    {
+        final MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+        return true;
     }
 
 
@@ -130,5 +142,11 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
                 });
             }
         }).start();
+    }
+
+    public void showAbout(final MenuItem menuItem)
+    {
+        Intent intent = new Intent(this, DisplayAboutActivity.class);
+        startActivity(intent);
     }
 }
