@@ -3,9 +3,7 @@
     <string name="start_string_app_name">start @string/app_name</string>
     <string name="about_this_app">About this app</string>
     <string name="about_text">"&lt;h1>About Memorex&lt;/h1>
-        &lt;ul>
-            &lt;li>&lt;u>Project website:&lt;/u> https://david.hebbeker.info/memorex&lt;/li>
-            &lt;li>&lt;u>version name:&lt;/u> %1$s&lt;/li>
-        &lt;/ul>"
+&lt;u>Project website:&lt;/u> https://david.hebbeker.info/memorex&lt;br/>
+&lt;u>version name:&lt;/u> %1$s"
 </string>
 </resources>

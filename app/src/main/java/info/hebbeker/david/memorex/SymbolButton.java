@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import static java.lang.Long.max;
+import static java.lang.Math.max;
 
 /**
  * Extends AppCompatButton with capabilities to signal a symbol.
