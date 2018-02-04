@@ -1,0 +1,16 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="1"
+        android:entries="@array/pref_speed_titles"
+        android:entryValues="@array/pref_speed_values"
+        android:key="speed_list"
+        android:title="@string/pref_title_speed" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="switch_preference_sound"
+        android:summaryOff="Game sounds are played."
+        android:summaryOn="No game sounds are played."
+        android:title="Silent" />
+
+</PreferenceScreen>

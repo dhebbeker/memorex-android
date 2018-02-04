@@ -149,4 +149,10 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         Intent intent = new Intent(this, DisplayAboutActivity.class);
         startActivity(intent);
     }
+
+    public void showSettings(final MenuItem item)
+    {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
 }

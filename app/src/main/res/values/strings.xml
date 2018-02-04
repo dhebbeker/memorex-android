@@ -6,4 +6,17 @@
 &lt;u>Project website:&lt;/u> https://david.hebbeker.info/memorex&lt;br/>
 &lt;u>version name:&lt;/u> %1$s"
 </string>
+    <!-- Strings related to Settings -->
+    <string name="pref_title_speed">Select game speed</string>
+    <string name="title_activity_settings">Settings</string>
+    <string-array name="pref_speed_titles">
+        <item>Slow</item>
+        <item>Medium</item>
+        <item>Fast</item>
+    </string-array>
+    <string-array name="pref_speed_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>
