@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 
-public class MainActivity extends AppCompatActivity implements GameBoardInterface
+public class MainActivity extends AppCompatActivity implements GameBoardInterface, View.OnClickListener
 {
     private final SymbolButton[] symbols = new SymbolButton[4];
     private final Game game = new Game(this, symbols);
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         symbols[1] = findViewById(R.id.button2);
         symbols[2] = findViewById(R.id.button3);
         symbols[3] = findViewById(R.id.button4);
+        for (SymbolButton symbolButton : symbols) symbolButton.setOnClickListener(this);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     /**
      * Called when the user presses a symbol button
      */
-    public void signalSymbol2Game(final View view)
+    public void signalSymbol2Game(View view)
     {
         SymbolButton pressedButton = (SymbolButton) view;
         pressedButton.signalSymbol(); // signal symbol to user
@@ -154,5 +155,11 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        signalSymbol2Game(view);
     }
 }
