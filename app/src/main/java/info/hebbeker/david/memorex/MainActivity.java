@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     /**
      * Called when the user presses a symbol button
      */
+    @SuppressWarnings("WeakerAccess")
     public void signalSymbol2Game(View view)
     {
         SymbolButton pressedButton = (SymbolButton) view;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         game.putPlayerInput(pressedButton); // signal symbol to game
     }
 
-    public void startGame(final View view)
+    public void startGame(@SuppressWarnings("unused") final View view)
     {
         game.startNewGame();
     }
@@ -148,13 +149,13 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         }).start();
     }
 
-    public void showAbout(final MenuItem menuItem)
+    public void showAbout(@SuppressWarnings("unused") final MenuItem menuItem)
     {
         Intent intent = new Intent(this, DisplayAboutActivity.class);
         startActivity(intent);
     }
 
-    public void showSettings(final MenuItem item)
+    public void showSettings(@SuppressWarnings("unused") final MenuItem item)
     {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
