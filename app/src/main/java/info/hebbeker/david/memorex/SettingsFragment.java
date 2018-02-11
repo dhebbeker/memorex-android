@@ -16,7 +16,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.pref_general);
-        speedPreference = (ListPreference) findPreference(getString(R.string.preference_speed_list));
+        final String preferenceKeySpeed = getString(R.string.preference_speed_list);
+        speedPreference = (ListPreference) findPreference(preferenceKeySpeed);
         speedPreference.setSummary(speedPreference.getEntry());
     }
 
@@ -44,6 +45,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             // Set summary to be the user-description for the selected value
             speedPreference.setSummary(speedPreference.getEntry());
             SymbolButton.updateSignallingDurationSettings(Long.parseLong(speedPreference.getValue()));
+        } else if (key.equals(getString(R.string.preference_switch_sound)))
+        {
+            final String preferenceKeySilent = getString(R.string.preference_switch_sound);
+            SymbolButton.setIsSilent(sharedPreferences.getBoolean(preferenceKeySilent, false));
         }
     }
 }

@@ -24,10 +24,9 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
     private static long signallingDuration = 0;
     private static int maxSoundDuration = 0;
     private static long animationDuration;
+    private static boolean isSilent;
     final private int symbol;
     final private Animation animation;
-    private final String preferenceKeySilent;
-    private final SharedPreferences sharedPreferences;
     private int soundId = -1;
 
     public SymbolButton(final Context context, final AttributeSet attrs)
@@ -59,10 +58,13 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
             // An invalid soundId will not be played but does not lead to an exception.
             exceptionLoadingSoundResource.printStackTrace();
         }
-        preferenceKeySilent = context.getString(R.string.preference_switch_sound);
+
+        // Load preferences
+        final String preferenceKeySilent = context.getString(R.string.preference_switch_sound);
         final String preferenceKeySpeed = context.getString(R.string.preference_speed_list);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         updateSignallingDurationSettings(Long.parseLong(sharedPreferences.getString(preferenceKeySpeed, "250")));
+        setIsSilent(sharedPreferences.getBoolean(preferenceKeySilent, false));
     }
 
     static long getSignallingDuration()
@@ -77,6 +79,11 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
     {
         animationDuration = newAnimationDuration;
         signallingDuration = max(animationDuration, maxSoundDuration);
+    }
+
+    static void setIsSilent(final boolean isSilent)
+    {
+        SymbolButton.isSilent = isSilent;
     }
 
     /**
@@ -117,7 +124,7 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
     {
         animation.setDuration(animationDuration);
         startAnimation(animation);
-        if (!sharedPreferences.getBoolean(preferenceKeySilent, false))
+        if (!isSilent)
         {
             soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
         }
