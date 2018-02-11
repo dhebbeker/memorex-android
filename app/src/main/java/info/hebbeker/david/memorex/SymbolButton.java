@@ -22,13 +22,13 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
 {
     final static private SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 0);
     private static long lastSignallingDuration = 0;
+    private static int maxSoundDuration = 0;
     final private int symbol;
     final private Animation animation;
     private final String preferenceKeySilent;
     private final String preferenceKeySpeed;
     private final SharedPreferences sharedPreferences;
     private int soundId = -1;
-    private int soundDuration = 0;
 
     public SymbolButton(final Context context, final AttributeSet attrs)
     {
@@ -46,7 +46,7 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
             soundId = soundPool.load(context, rawSoundResourceId, 1);
             try
             {
-                soundDuration = getSoundDuration(context, rawSoundResourceId);
+                maxSoundDuration = max(maxSoundDuration, getSoundDuration(context, rawSoundResourceId));
             } catch (Exception exceptionGettingSoundDuration)
             {
 
@@ -116,6 +116,6 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
 
     long getSignallingDuration()
     {
-        return max(animation.getDuration(), soundDuration);
+        return max(animation.getDuration(), maxSoundDuration);
     }
 }
