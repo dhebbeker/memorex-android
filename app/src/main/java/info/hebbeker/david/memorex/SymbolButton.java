@@ -108,7 +108,10 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
         animation.setDuration(Long.parseLong(sharedPreferences.getString(preferenceKeySpeed, "250")));
         lastSignallingDuration = getSignallingDuration();
         startAnimation(animation);
-        soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
+        if (!sharedPreferences.getBoolean(preferenceKeySilent, false))
+        {
+            soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
+        }
     }
 
     long getSignallingDuration()
