@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
             {
                 try
                 {
-                    sleep(SymbolButton.getLastSignallingDuration() + 450);
+                    sleep(SymbolButton.getSignallingDuration() + 450);
                     for (final Symbol symbol : symbolSequence)
                     {
                         final SymbolButton symbolButton = (SymbolButton) symbol;
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
                                 symbolButton.signalSymbol();
                             }
                         });
-                        sleep((long) (symbolButton.getSignallingDuration() * 1.2));
+                        sleep((long) (SymbolButton.getSignallingDuration() * 1.2));
                     }
                 } catch (InterruptedException e)
                 {
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
             {
                 try
                 {
-                    sleep(SymbolButton.getLastSignallingDuration() + 750);
+                    sleep(SymbolButton.getSignallingDuration() + 750);
                 } catch (InterruptedException e)
                 {
                     // can not do much in case of an InterruptedException. Also it does not matter.

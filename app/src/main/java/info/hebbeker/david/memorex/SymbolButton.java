@@ -21,12 +21,12 @@ import static java.lang.Math.max;
 final class SymbolButton extends android.support.v7.widget.AppCompatButton implements Symbol
 {
     final static private SoundPool soundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 0);
-    private static long lastSignallingDuration = 0;
+    private static long signallingDuration = 0;
     private static int maxSoundDuration = 0;
+    private static long animationDuration;
     final private int symbol;
     final private Animation animation;
     private final String preferenceKeySilent;
-    private final String preferenceKeySpeed;
     private final SharedPreferences sharedPreferences;
     private int soundId = -1;
 
@@ -60,13 +60,23 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
             exceptionLoadingSoundResource.printStackTrace();
         }
         preferenceKeySilent = context.getString(R.string.preference_switch_sound);
-        preferenceKeySpeed = context.getString(R.string.preference_speed_list);
+        final String preferenceKeySpeed = context.getString(R.string.preference_speed_list);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        updateSignallingDurationSettings(Long.parseLong(sharedPreferences.getString(preferenceKeySpeed, "250")));
     }
 
-    static long getLastSignallingDuration()
+    static long getSignallingDuration()
     {
-        return lastSignallingDuration;
+        return signallingDuration;
+    }
+
+    /**
+     * Updates the signalling duration times according to the preferences.
+     */
+    static void updateSignallingDurationSettings(final long newAnimationDuration)
+    {
+        animationDuration = newAnimationDuration;
+        signallingDuration = max(animationDuration, maxSoundDuration);
     }
 
     /**
@@ -105,17 +115,11 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
 
     void signalSymbol()
     {
-        animation.setDuration(Long.parseLong(sharedPreferences.getString(preferenceKeySpeed, "250")));
-        lastSignallingDuration = getSignallingDuration();
+        animation.setDuration(animationDuration);
         startAnimation(animation);
         if (!sharedPreferences.getBoolean(preferenceKeySilent, false))
         {
             soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
         }
-    }
-
-    long getSignallingDuration()
-    {
-        return max(animation.getDuration(), maxSoundDuration);
     }
 }

@@ -43,6 +43,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         {
             // Set summary to be the user-description for the selected value
             speedPreference.setSummary(speedPreference.getEntry());
+            SymbolButton.updateSignallingDurationSettings(Long.parseLong(speedPreference.getValue()));
         }
     }
 }
