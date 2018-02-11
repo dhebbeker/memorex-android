@@ -4,11 +4,11 @@
         android:defaultValue="1"
         android:entries="@array/pref_speed_titles"
         android:entryValues="@array/pref_speed_values"
-        android:key="speed_list"
+        android:key="@string/preference_speed_list"
         android:title="@string/pref_title_speed" />
     <SwitchPreference
         android:defaultValue="false"
-        android:key="switch_preference_sound"
+        android:key="@string/preference_switch_sound"
         android:summaryOff="Game sounds are played."
         android:summaryOn="No game sounds are played."
         android:title="Silent" />
