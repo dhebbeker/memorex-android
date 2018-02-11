@@ -1,10 +1,12 @@
 package info.hebbeker.david.memorex;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -22,6 +24,9 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
     private static long lastSignallingDuration = 0;
     final private int symbol;
     final private Animation animation;
+    private final String preferenceKeySilent;
+    private final String preferenceKeySpeed;
+    private final SharedPreferences sharedPreferences;
     private int soundId = -1;
     private int soundDuration = 0;
 
@@ -54,6 +59,9 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
             // An invalid soundId will not be played but does not lead to an exception.
             exceptionLoadingSoundResource.printStackTrace();
         }
+        preferenceKeySilent = context.getString(R.string.preference_switch_sound);
+        preferenceKeySpeed = context.getString(R.string.preference_speed_list);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     static long getLastSignallingDuration()
@@ -97,6 +105,7 @@ final class SymbolButton extends android.support.v7.widget.AppCompatButton imple
 
     void signalSymbol()
     {
+        animation.setDuration(Long.parseLong(sharedPreferences.getString(preferenceKeySpeed, "250")));
         lastSignallingDuration = getSignallingDuration();
         startAnimation(animation);
         soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
