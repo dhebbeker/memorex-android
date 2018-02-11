@@ -2,6 +2,7 @@ package info.hebbeker.david.memorex;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         symbols[2] = findViewById(R.id.button3);
         symbols[3] = findViewById(R.id.button4);
         for (SymbolButton symbolButton : symbols) symbolButton.setOnClickListener(this);
+
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
     }
 
     @Override
