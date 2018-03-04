@@ -41,3 +41,21 @@ Please refer to the [releases page][1] to download the Android application packa
 
 [1]: https://github.com/dhebbeker/memorex-android/releases "release page on GitHub"
 [2]: https://developer.android.com/distribute/marketing-tools/alternative-distribution.html#unknown-sources "User opt-in for installing unknown apps"
+
+### Contributing
+
+This app certainly has potential to grow. In case you played it, you may already have some features in mind to enhance the game.
+
+Contributors are welcome! Please read our [Code of Conduct][6]. These are some of the possibilities to contribute to the project:
+* Create an issue on the [issue page][3] in order to ask questions related to the project or app, report a problem, or request a new feature.
+* Create or edit pages in the [project wiki][4] in order to document the app or the project itself.
+* Please feel free to contribute source code! These [guidelines][5] may help you doing so.
+
+[3]: https://github.com/dhebbeker/memorex-android/issues "issue page on GitHub"
+[4]: https://github.com/dhebbeker/memorex-android/wiki "wiki page on GitHub"
+[5]: CONTRIBUTING.md "project specific contribution guidelines"
+[6]: CODE_OF_CONDUCT.md "project specific code of conduct"
+
+### License
+
+See the [license file](LICENSE) file for details.
