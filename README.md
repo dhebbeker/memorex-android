@@ -34,3 +34,6 @@ The heart of the game is a [basic program](documentation/res/memorex06.bas) whic
 ![screenshot of the app](documentation/res/memorex-app.jpg)
 
 In January 2018 an app for Android operating systems has been developed.
+
+[@todo]: # "Add minimum system requirements specification."
+[@todo]: # "Add direct link to the current release APK."
