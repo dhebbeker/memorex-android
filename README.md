@@ -13,7 +13,7 @@ Memorex has been deployed on the following platforms:
 
 [![game seen from the side](documentation/res/pseite.jpg)](documentation/res/seite.jpg)
 
-The original Memorex implementation has been a handheld electronic game. It is made of a wooden box with a panel on top. The player uses four colored buttons which are accompanied by a corresponding colored LED. A buzzer plays a tone for each symbol.
+The original Memorex implementation has been developed in January 2005 as a handheld electronic game. It is made of a wooden box with a panel on top. The player uses four colored buttons which are accompanied by a corresponding colored LED. A buzzer plays a tone for each symbol.
 
 [![game with open case](documentation/res/popen.jpg)](documentation/res/open.jpg)
 
@@ -33,7 +33,11 @@ The heart of the game is a [basic program](documentation/res/memorex06.bas) whic
 
 ![screenshot of the app](documentation/res/memorex-app.jpg)
 
-In January 2018 an app for Android operating systems has been developed.
+In January 2018 an app for Android platforms has been developed.
 
-[@todo]: # "Add minimum system requirements specification."
-[@todo]: # "Add direct link to the current release APK."
+### Download and install
+
+Please refer to the [releases page][1] to download the Android application package (APK) file. The ability to install the package is limited on most Android devices. Please consult the Android documentation on [how to enable installation from "Unknown sources"][2] if necessary.
+
+[1]: https://github.com/dhebbeker/memorex-android/releases "release page on GitHub"
+[2]: https://developer.android.com/distribute/marketing-tools/alternative-distribution.html#unknown-sources "User opt-in for installing unknown apps"
