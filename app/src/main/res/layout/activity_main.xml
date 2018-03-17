@@ -97,6 +97,7 @@
         android:background="#1A02C8"
         android:contentDescription="@string/start_string_app_name"
         android:onClick="startGame"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
