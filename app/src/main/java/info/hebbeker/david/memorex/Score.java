@@ -4,7 +4,7 @@ package info.hebbeker.david.memorex;
  * Does contain information about a score.
  * \todo Add the following attributes: username, speed, date, points
  */
-public class Score
+class Score implements java.io.Serializable
 {
     /**
      * Completed level.
@@ -14,8 +14,16 @@ public class Score
      */
     private final int level;
 
-    public Score(final int level)
+    Score(final int level)
     {
         this.level = level;
+    }
+
+    /**
+     * @return true if this score is greater than other score
+     */
+    boolean isGreaterThan(final Score otherScore)
+    {
+        return this.level > otherScore.level;
     }
 }
