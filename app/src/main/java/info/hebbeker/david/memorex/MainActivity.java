@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     private final SymbolButton[] symbols = new SymbolButton[4];
     private final Game game = new Game(this, symbols);
     private View startGameButton;
+    private Toast notification = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -102,7 +103,11 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     @Override
     public void notifyUser(final String userMessage)
     {
-        Toast notification = Toast.makeText(this, userMessage, Toast.LENGTH_LONG);
+        if (notification != null) // check if a notification has been created before
+        {
+            notification.cancel(); // cancel potential previous notification
+        }
+        notification = Toast.makeText(this, userMessage, Toast.LENGTH_LONG);
         notification.show();
     }
 
