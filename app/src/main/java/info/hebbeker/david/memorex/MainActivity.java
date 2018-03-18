@@ -1,5 +1,6 @@
 package info.hebbeker.david.memorex;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     {
         SymbolButton pressedButton = (SymbolButton) view;
         pressedButton.signalSymbol(); // signal symbol to user
-        game.putPlayerInput(pressedButton, highScoreContainer); // signal symbol to game
+        game.putPlayerInput(pressedButton); // signal symbol to game
     }
 
     public void startGame(@SuppressWarnings("unused") final View view)
@@ -113,6 +114,22 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         }
         notification = Toast.makeText(this, userMessage, Toast.LENGTH_LONG);
         notification.show();
+    }
+
+    @Override
+    public void showEndOfGameDialog(final Score score)
+    {
+        final boolean isNewHighScore = highScoreContainer.setNewHighScore(score);
+        DialogFragment endOfGameDialog = new EndOfGameDialogFragment();
+
+        /* the arguments for the dialog need to be put into a bundle */
+        final Bundle dialogArguments = new Bundle(3);
+        dialogArguments.putSerializable(EndOfGameDialogFragment.keyLastScore, score);
+        dialogArguments.putSerializable(EndOfGameDialogFragment.keyCurrentHighScore, highScoreContainer.getCurrentHighScore());
+        dialogArguments.putBoolean(EndOfGameDialogFragment.keyIsNewHighScore, isNewHighScore);
+        endOfGameDialog.setArguments(dialogArguments);
+
+        endOfGameDialog.show(getFragmentManager(), EndOfGameDialogFragment.class.getCanonicalName());
     }
 
     @Override
