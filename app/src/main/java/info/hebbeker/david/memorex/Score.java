@@ -4,7 +4,7 @@ package info.hebbeker.david.memorex;
  * Does contain information about a score.
  * \todo Add the following attributes: username, speed, date, points
  */
-class Score implements java.io.Serializable
+class Score
 {
     /**
      * Completed level.
