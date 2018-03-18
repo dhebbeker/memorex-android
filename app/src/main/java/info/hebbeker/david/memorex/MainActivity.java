@@ -157,6 +157,12 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         }).start();
     }
 
+    public void showHighScore(@SuppressWarnings("unused") final MenuItem menuItem)
+    {
+        Intent intent = new Intent(this, DisplayHighScore.class);
+        startActivity(intent);
+    }
+
     public void showAbout(@SuppressWarnings("unused") final MenuItem menuItem)
     {
         Intent intent = new Intent(this, DisplayAboutActivity.class);

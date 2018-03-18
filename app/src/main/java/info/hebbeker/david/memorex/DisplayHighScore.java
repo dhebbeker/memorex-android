@@ -1,0 +1,15 @@
+package info.hebbeker.david.memorex;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+public class DisplayHighScore extends AppCompatActivity
+{
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_high_score);
+    }
+}
