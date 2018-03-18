@@ -68,12 +68,16 @@ final class Game
         gameBoardInterface.queueDisplaySymbolSequence(symbolSequence);
     }
 
-    void putPlayerInput(final Symbol symbol)
+    void putPlayerInput(final Symbol symbol, final HighScoreContainer highScoreContainer)
     {
         // if input symbol is not correct, notify user and reset board game
         if (symbol != currentSymbol.next())
         {
-            gameBoardInterface.notifyUser("Game Over (" + symbolSequence.size() + ")");
+            // end current game
+            final int completedLevel = symbolSequence.size() - 1;
+            final Score score = new Score(completedLevel);
+            highScoreContainer.setNewHighScore(score);
+            gameBoardInterface.notifyUser("Game Over (" + completedLevel + ")");
             gameBoardInterface.clearBoard();
         }
         // if sequence is complete, notify user and start next level
