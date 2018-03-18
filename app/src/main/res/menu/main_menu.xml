@@ -6,6 +6,10 @@
         android:onClick="showAbout"
         android:title="@string/about_this_app"
         android:titleCondensed="About" />
+
+    <!-- “Settings” should be below all other items (except Help & Feedback)
+         https://material.io/guidelines/patterns/settings.html#settings-placement
+    -->
     <item
         android:icon="@android:drawable/ic_menu_preferences"
         android:onClick="showSettings"
