@@ -1,5 +1,6 @@
 package info.hebbeker.david.memorex;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,8 +19,9 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
 {
     private final SymbolButton[] symbols = new SymbolButton[4];
     private final Game game = new Game(this, symbols);
-    private View startGameButton;
+    private View startGameButton = null;
     private Toast notification = null;
+    private HighScoreContainer highScoreContainer = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         setContentView(R.layout.activity_main);
 
         startGameButton = findViewById(R.id.startButton);
+        highScoreContainer = new HighScoreContainer(getSharedPreferences("info.hebbeker.david.memorex.PREFERENCE_SCORE_FILE_KEY", Context.MODE_PRIVATE));
 
         symbols[0] = findViewById(R.id.button1);
         symbols[1] = findViewById(R.id.button2);
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     {
         SymbolButton pressedButton = (SymbolButton) view;
         pressedButton.signalSymbol(); // signal symbol to user
-        game.putPlayerInput(pressedButton); // signal symbol to game
+        game.putPlayerInput(pressedButton, highScoreContainer); // signal symbol to game
     }
 
     public void startGame(@SuppressWarnings("unused") final View view)
