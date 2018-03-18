@@ -17,6 +17,7 @@ import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity implements GameBoardInterface, View.OnClickListener
 {
+    static final String HIGH_SCORE_DATA = MainActivity.class.getPackage().getName() + "HIGH_SCORE_DATA";
     private final SymbolButton[] symbols = new SymbolButton[4];
     private final Game game = new Game(this, symbols);
     private View startGameButton = null;
@@ -160,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     public void showHighScore(@SuppressWarnings("unused") final MenuItem menuItem)
     {
         Intent intent = new Intent(this, DisplayHighScore.class);
+        intent.putExtra(HIGH_SCORE_DATA, highScoreContainer.getCurrentHighScore());
         startActivity(intent);
     }
 

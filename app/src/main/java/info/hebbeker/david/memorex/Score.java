@@ -1,10 +1,12 @@
 package info.hebbeker.david.memorex;
 
+import java.io.Serializable;
+
 /**
  * Does contain information about a score.
  * \todo Add the following attributes: username, speed, date, points
  */
-class Score
+class Score implements Serializable
 {
     /**
      * Completed level.
@@ -25,5 +27,11 @@ class Score
     boolean isGreaterThan(final Score otherScore)
     {
         return this.level > otherScore.level;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Level=" + level;
     }
 }

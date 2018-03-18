@@ -57,4 +57,9 @@ class HighScoreContainer
         editor.putString(highScorePreferenceKey, highScoreSerializedObject);
         editor.apply();
     }
+
+    public Score getCurrentHighScore()
+    {
+        return currentHighScore;
+    }
 }
