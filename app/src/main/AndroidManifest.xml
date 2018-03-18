@@ -19,6 +19,7 @@
         </activity>
         <activity
             android:name=".DisplayAboutActivity"
+            android:label="@string/about_this_app"
             android:parentActivityName=".MainActivity"
             tools:ignore="UnusedAttribute">
 
