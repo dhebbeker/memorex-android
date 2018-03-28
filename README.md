@@ -1,3 +1,7 @@
+**Download latest release of Memorex App:** Got to [latest release][] page and download the *`app-release-vX-Y-Z.apk` asset*.
+
+[latest release]: https://github.com/dhebbeker/memorex-android/releases/latest "latest release on GitHub"
+
 # Memorex
 
 Memorex is a simple game for short time diversion. The challenge is to memorize a sequence of symbols. The sequence is displayed by the game and the player has to repeat it directly afterwards. On success the game increments the sequence by another symbol and repeats. There are four different symbols with a color and tone each.
@@ -47,6 +51,7 @@ Please refer to the [releases page][1] to download the Android application packa
 This app certainly has potential to grow. In case you played it, you may already have some features in mind to enhance the game.
 
 Contributors are welcome! Please read our [Code of Conduct][6]. These are some of the possibilities to contribute to the project:
+
 * Create an issue on the [issue page][3] in order to ask questions related to the project or app, report a problem, or request a new feature.
 * Create or edit pages in the [project wiki][4] in order to document the app or the project itself.
 * Please feel free to contribute source code! These [guidelines][5] may help you doing so.
