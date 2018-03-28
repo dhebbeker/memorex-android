@@ -17,7 +17,8 @@ import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity implements GameBoardInterface, View.OnClickListener
 {
-    static final String HIGH_SCORE_DATA = MainActivity.class.getPackage().getName() + "HIGH_SCORE_DATA";
+    static final String packageName = MainActivity.class.getPackage().getName();
+    static final String HIGH_SCORE_DATA = packageName + ".HIGH_SCORE_DATA";
     private final SymbolButton[] symbols = new SymbolButton[4];
     private final Game game = new Game(this, symbols);
     private View startGameButton = null;
@@ -29,17 +30,16 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
 
         startGameButton = findViewById(R.id.startButton);
-        highScoreContainer = new HighScoreContainer(getSharedPreferences("info.hebbeker.david.memorex.PREFERENCE_SCORE_FILE_KEY", Context.MODE_PRIVATE));
+        highScoreContainer = new HighScoreContainer(getSharedPreferences(packageName + ".PREFERENCE_SCORE_FILE_KEY", Context.MODE_PRIVATE));
 
         symbols[0] = findViewById(R.id.button1);
         symbols[1] = findViewById(R.id.button2);
         symbols[2] = findViewById(R.id.button3);
         symbols[3] = findViewById(R.id.button4);
         for (SymbolButton symbolButton : symbols) symbolButton.setOnClickListener(this);
-
-        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
     }
 
     @Override
