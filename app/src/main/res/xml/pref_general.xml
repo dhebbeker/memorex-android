@@ -12,5 +12,11 @@
         android:summaryOff="Game sounds are played."
         android:summaryOn="No game sounds are played."
         android:title="Silent" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/preference_switch_autoUpdate"
+        android:summaryOff="Available updates are not notified."
+        android:summaryOn="Updates are searched on startup."
+        android:title="Automatic update notification" />
 
 </PreferenceScreen>
