@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         final String preferenceKeyAutoUpdate = getString(R.string.preference_switch_autoUpdate);
         appUpdater = new AppUpdater(this)
+                .setButtonDoNotShowAgain(null)
                 .setUpdateFrom(UpdateFrom.GITHUB)
                 .setGitHubUserAndRepo("dhebbeker", "memorex-android");
         if (defaultSharedPreferences.getBoolean(preferenceKeyAutoUpdate, false))
