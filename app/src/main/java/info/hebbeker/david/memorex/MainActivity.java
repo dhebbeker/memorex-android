@@ -1,5 +1,6 @@
 package info.hebbeker.david.memorex;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,7 +22,8 @@ import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity implements GameBoardInterface, View.OnClickListener
 {
-    static final String HIGH_SCORE_DATA = MainActivity.class.getPackage().getName() + "HIGH_SCORE_DATA";
+    static final String packageName = MainActivity.class.getPackage().getName();
+    static final String HIGH_SCORE_DATA = packageName + ".HIGH_SCORE_DATA";
     private final SymbolButton[] symbols = new SymbolButton[4];
     private final Game game = new Game(this, symbols);
     private View startGameButton = null;
@@ -34,9 +36,10 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
 
         startGameButton = findViewById(R.id.startButton);
-        highScoreContainer = new HighScoreContainer(getSharedPreferences("info.hebbeker.david.memorex.PREFERENCE_SCORE_FILE_KEY", Context.MODE_PRIVATE));
+        highScoreContainer = new HighScoreContainer(getSharedPreferences(packageName + ".PREFERENCE_SCORE_FILE_KEY", Context.MODE_PRIVATE));
 
         symbols[0] = findViewById(R.id.button1);
         symbols[1] = findViewById(R.id.button2);
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     {
         SymbolButton pressedButton = (SymbolButton) view;
         pressedButton.signalSymbol(); // signal symbol to user
-        game.putPlayerInput(pressedButton, highScoreContainer); // signal symbol to game
+        game.putPlayerInput(pressedButton); // signal symbol to game
     }
 
     public void startGame(@SuppressWarnings("unused") final View view)
@@ -129,6 +132,22 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         }
         notification = Toast.makeText(this, userMessage, Toast.LENGTH_LONG);
         notification.show();
+    }
+
+    @Override
+    public void showEndOfGameDialog(final Score score)
+    {
+        final boolean isNewHighScore = highScoreContainer.setNewHighScore(score);
+        DialogFragment endOfGameDialog = new EndOfGameDialogFragment();
+
+        /* the arguments for the dialog need to be put into a bundle */
+        final Bundle dialogArguments = new Bundle(3);
+        dialogArguments.putSerializable(EndOfGameDialogFragment.keyLastScore, score);
+        dialogArguments.putSerializable(EndOfGameDialogFragment.keyCurrentHighScore, highScoreContainer.getCurrentHighScore());
+        dialogArguments.putBoolean(EndOfGameDialogFragment.keyIsNewHighScore, isNewHighScore);
+        endOfGameDialog.setArguments(dialogArguments);
+
+        endOfGameDialog.show(getFragmentManager(), EndOfGameDialogFragment.class.getCanonicalName());
     }
 
     @Override
