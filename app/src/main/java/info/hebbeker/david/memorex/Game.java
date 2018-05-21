@@ -28,6 +28,8 @@ interface GameBoardInterface
      */
     void notifyUser(final String userMessage);
 
+    void showEndOfGameDialog(final Score score);
+
     /**
      * Set game board to a state where the player sees all symbols.
      */
@@ -68,7 +70,7 @@ final class Game
         gameBoardInterface.queueDisplaySymbolSequence(symbolSequence);
     }
 
-    void putPlayerInput(final Symbol symbol, final HighScoreContainer highScoreContainer)
+    void putPlayerInput(final Symbol symbol)
     {
         // if input symbol is not correct, notify user and reset board game
         if (symbol != currentSymbol.next())
@@ -76,8 +78,7 @@ final class Game
             // end current game
             final int completedLevel = symbolSequence.size() - 1;
             final Score score = new Score(completedLevel);
-            highScoreContainer.setNewHighScore(score);
-            gameBoardInterface.notifyUser("Game Over (" + completedLevel + ")");
+            gameBoardInterface.showEndOfGameDialog(score);
             gameBoardInterface.clearBoard();
         }
         // if sequence is complete, notify user and start next level
