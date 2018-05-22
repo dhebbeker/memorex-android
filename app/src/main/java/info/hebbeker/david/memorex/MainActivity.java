@@ -22,7 +22,7 @@ import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity implements GameBoardInterface, View.OnClickListener
 {
-    static final String packageName = MainActivity.class.getPackage().getName();
+    private static final String packageName = MainActivity.class.getPackage().getName();
     static final String HIGH_SCORE_DATA = packageName + ".HIGH_SCORE_DATA";
     private final SymbolButton[] symbols = new SymbolButton[4];
     private final Game game = new Game(this, symbols);
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         final String preferenceKeyAutoUpdate = getString(R.string.preference_switch_autoUpdate);
         appUpdater = new AppUpdater(this)
-                .setButtonDoNotShowAgain(null)
+                .setButtonDoNotShowAgain("")
                 .setUpdateFrom(UpdateFrom.GITHUB)
                 .setGitHubUserAndRepo(getString(R.string.gitHubUsername), getString(R.string.gitHubRepositoryName));
         if (defaultSharedPreferences.getBoolean(preferenceKeyAutoUpdate, false))
