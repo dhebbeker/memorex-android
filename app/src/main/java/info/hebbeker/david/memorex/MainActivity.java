@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         appUpdater = new AppUpdater(this)
                 .setButtonDoNotShowAgain(null)
                 .setUpdateFrom(UpdateFrom.GITHUB)
-                .setGitHubUserAndRepo("dhebbeker", "memorex-android");
+                .setGitHubUserAndRepo(getString(R.string.gitHubUsername), getString(R.string.gitHubRepositoryName));
         if (defaultSharedPreferences.getBoolean(preferenceKeyAutoUpdate, false))
         {
             appUpdater.start();

@@ -14,6 +14,8 @@
     <string name="show_high_score">Show high score</string>
     <string name="high_score_display">Current high score is: %1$s</string>
     <string name="search_for_updates">Search for updates</string>
+    <string name="gitHubUsername">dhebbeker</string>
+    <string name="gitHubRepositoryName">memorex-android</string>
     <string-array name="pref_speed_titles">
         <item>Slow</item>
         <item>Medium</item>
