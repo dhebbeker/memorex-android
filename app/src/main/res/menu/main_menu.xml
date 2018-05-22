@@ -8,6 +8,11 @@
         android:titleCondensed="high score" />
     <item
         android:icon="@android:drawable/ic_menu_info_details"
+        android:onClick="showLicenses"
+        android:title="Software Licenses"
+        android:titleCondensed="Licensing" />
+    <item
+        android:icon="@android:drawable/ic_menu_info_details"
         android:onClick="showAbout"
         android:title="@string/about_this_app"
         android:titleCondensed="About" />
