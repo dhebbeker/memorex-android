@@ -3,6 +3,7 @@ package info.hebbeker.david.memorex;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 
 import java.util.ArrayList;
 
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
     private View startGameButton = null;
     private Toast notification = null;
     private HighScoreContainer highScoreContainer = null;
+    private AppUpdater appUpdater;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -41,6 +46,18 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         symbols[2] = findViewById(R.id.button3);
         symbols[3] = findViewById(R.id.button4);
         for (SymbolButton symbolButton : symbols) symbolButton.setOnClickListener(this);
+
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
+        // Search for updates
+        final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final String preferenceKeyAutoUpdate = getString(R.string.preference_switch_autoUpdate);
+        appUpdater = new AppUpdater(this)
+                .setUpdateFrom(UpdateFrom.GITHUB)
+                .setGitHubUserAndRepo("dhebbeker", "memorex-android");
+        if (defaultSharedPreferences.getBoolean(preferenceKeyAutoUpdate, false))
+        {
+            appUpdater.start();
+        }
     }
 
     @Override
@@ -180,6 +197,12 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         Intent intent = new Intent(this, DisplayHighScore.class);
         intent.putExtra(HIGH_SCORE_DATA, highScoreContainer.getCurrentHighScore());
         startActivity(intent);
+    }
+
+    public void updateNow(@SuppressWarnings("unused") final MenuItem menuItem)
+    {
+        appUpdater.showAppUpdated(true);
+        appUpdater.start();
     }
 
     public void showAbout(@SuppressWarnings("unused") final MenuItem menuItem)
