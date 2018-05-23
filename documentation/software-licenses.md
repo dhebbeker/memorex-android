@@ -12,6 +12,10 @@ This product contains artwork and code from the following right holders.
 Copyright © 2018 Google Inc.
 Licensed under the Apache License, version 2.0 (copy below).
 
+## AppUpdater
+Copyright © 2016 Javier Santos
+Licensed under the Apache License, version 2.0 (copy below).
+
 # Licenses
 
 ## MIT License
