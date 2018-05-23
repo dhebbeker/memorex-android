@@ -218,6 +218,12 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         startActivity(intent);
     }
 
+    public void showLicenses(@SuppressWarnings("unused") final MenuItem item)
+    {
+        Intent intent = new Intent(this, LicenseView.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View view)
     {

@@ -1,0 +1,9 @@
+# This is a Makefile to generate HTML files from some Markdown files. These HTML files are included by the app.
+
+ASSET_DIR = app/src/main/assets
+PANDOC_MD2HTML_FLAGS = --from=markdown --to=HTML --standalone --self-contained --ascii
+
+$(ASSET_DIR)/%.html: documentation/%.md
+	pandoc $(PANDOC_MD2HTML_FLAGS) --output=$@ $^
+
+all: $(ASSET_DIR)/software-licenses.html
