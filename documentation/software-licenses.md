@@ -9,7 +9,7 @@ This product contains artwork and code from the following right holders.
 # Attributions
 
 ## The Android Open Source Project
-Copyright © 2018 Google Inc.
+Copyright © 2018 Google Inc.  
 Licensed under the Apache License, version 2.0 (copy below).
 
 ## AppUpdater
@@ -40,7 +40,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ## Apache License
-Version 2.0, January 2004
+Version 2.0, January 2004  
 <http://www.apache.org/licenses/>
 
    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
