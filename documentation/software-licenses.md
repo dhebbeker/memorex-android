@@ -8,14 +8,16 @@ This product contains artwork and code from the following right holders.
 
 # Attributions
 
-## The Android Open Source Project
+## [The Android Open Source Project][AOSP]
 Copyright © 2018 Google Inc.  
 Licensed under the Apache License, version 2.0 (copy below).
 
+[AOSP]: https://source.android.com/
+
 # Licenses
 
-## MIT License
-<https://opensource.org/licenses/MIT>
+## [MIT License][]
+[MIT License]: https://opensource.org/licenses/MIT
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,9 +37,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-## Apache License
-Version 2.0, January 2004  
-<http://www.apache.org/licenses/>
+## [Apache License][]
+Version 2.0, January 2004
+
+[Apache License]: http://www.apache.org/licenses/
 
    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 
