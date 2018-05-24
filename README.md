@@ -1,4 +1,4 @@
-**Download latest release of Memorex App:** Got to [latest release][] page and download the *`app-release-vX-Y-Z.apk` asset*.
+**Download latest release of Memorex App:** Got to the [latest release page][latest release] and download the *`app-release-vX-Y-Z.apk` asset*.
 
 [latest release]: https://github.com/dhebbeker/memorex-android/releases/latest "latest release on GitHub"
 
