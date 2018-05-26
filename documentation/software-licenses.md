@@ -14,6 +14,12 @@ Licensed under the Apache License, version 2.0 (copy below).
 
 [AOSP]: https://source.android.com/
 
+## [AppUpdater][]
+Copyright © 2016 Javier Santos  
+Licensed under the Apache License, version 2.0 (copy below).
+
+[AppUpdater]: https://github.com/javiersantos/AppUpdater
+
 # Licenses
 
 ## [MIT License][]

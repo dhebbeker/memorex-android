@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/modules/AppUpdater/library/AppUpdater.iml" filepath="$PROJECT_DIR$/modules/AppUpdater/library/AppUpdater.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/memorex-app.iml" filepath="$PROJECT_DIR$/memorex-app.iml" />
     </modules>

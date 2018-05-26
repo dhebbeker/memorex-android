@@ -3,6 +3,7 @@ package info.hebbeker.david.memorex;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,19 +13,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
+
 import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity implements GameBoardInterface, View.OnClickListener
 {
-    static final String packageName = MainActivity.class.getPackage().getName();
+    private static final String packageName = MainActivity.class.getPackage().getName();
     static final String HIGH_SCORE_DATA = packageName + ".HIGH_SCORE_DATA";
     private final SymbolButton[] symbols = new SymbolButton[4];
     private final Game game = new Game(this, symbols);
     private View startGameButton = null;
     private Toast notification = null;
     private HighScoreContainer highScoreContainer = null;
+    private AppUpdater appUpdater;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -41,6 +46,19 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         symbols[2] = findViewById(R.id.button3);
         symbols[3] = findViewById(R.id.button4);
         for (SymbolButton symbolButton : symbols) symbolButton.setOnClickListener(this);
+
+        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
+        // Search for updates
+        final SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final String preferenceKeyAutoUpdate = getString(R.string.preference_switch_autoUpdate);
+        appUpdater = new AppUpdater(this)
+                .setButtonDoNotShowAgain("")
+                .setUpdateFrom(UpdateFrom.GITHUB)
+                .setGitHubUserAndRepo(getString(R.string.gitHubUsername), getString(R.string.gitHubRepositoryName));
+        if (defaultSharedPreferences.getBoolean(preferenceKeyAutoUpdate, false))
+        {
+            appUpdater.start();
+        }
     }
 
     @Override
@@ -180,6 +198,12 @@ public class MainActivity extends AppCompatActivity implements GameBoardInterfac
         Intent intent = new Intent(this, DisplayHighScore.class);
         intent.putExtra(HIGH_SCORE_DATA, highScoreContainer.getCurrentHighScore());
         startActivity(intent);
+    }
+
+    public void updateNow(@SuppressWarnings("unused") final MenuItem menuItem)
+    {
+        appUpdater.showAppUpdated(true);
+        appUpdater.start();
     }
 
     public void showAbout(@SuppressWarnings("unused") final MenuItem menuItem)
